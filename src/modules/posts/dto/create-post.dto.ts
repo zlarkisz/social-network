@@ -1,4 +1,4 @@
-import { IsString, Length } from 'class-validator';
+import { IsString, Length, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -6,6 +6,10 @@ export class CreatePostDto {
   title: string;
 
   @IsString()
-  @Length(6, 30)
+  @Length(6, 500)
   content: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
 }
