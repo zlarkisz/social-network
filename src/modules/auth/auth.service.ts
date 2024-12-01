@@ -33,17 +33,13 @@ export class AuthService {
 
     if (user.token) {
       try {
-        const isTokenValid = this.jwtService.verify(user.token);
+        // Валідація існуючого токена
+        this.jwtService.verify(user.token);
 
-        if (isTokenValid) {
-          return { access_token: user.token };
-        }
+        return { access_token: user.token }; // Повертаємо існуючий токен, якщо він валідний
       } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-          this.logger.warn('Token has expired, creating a new one.');
-        } else {
-          this.logger.error('Token verification failed:', error);
-        }
+        this.logger.error(error.message);
+        this.logger.error('Existing token is invalid, creating a new one.');
       }
     }
 
