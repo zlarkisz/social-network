@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -16,6 +16,14 @@ export class UsersService {
   ) {}
 
   async create(user: IUser): Promise<{ user: User; access_token: string }> {
+    const existingUser = await this.usersRepository.findOne({
+      where: { email: user.email },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('User with this email already exists');
+    }
+
     const SALT_ROUNDS = 10;
     const salt = await bcryptjs.genSalt(SALT_ROUNDS);
     const hashedPassword = await bcryptjs.hash(user.password, salt);
@@ -26,10 +34,12 @@ export class UsersService {
       password: hashedPassword,
     });
 
-    const savedUser = await this.usersRepository.save(newUser);
-
-    const payload = { username: savedUser.name, sub: savedUser.id };
+    const payload = { username: newUser.name, sub: newUser.id };
     const access_token = this.jwtService.sign(payload);
+
+    newUser.token = access_token;
+
+    const savedUser = await this.usersRepository.save(newUser);
 
     return { user: savedUser, access_token };
   }
@@ -57,5 +67,9 @@ export class UsersService {
 
   validatePassword(plainPassword: string, hash: string): Promise<boolean> {
     return bcryptjs.compare(plainPassword, hash);
+  }
+
+  async updateToken(userId: number, token: string): Promise<void> {
+    await this.usersRepository.update(userId, { token });
   }
 }
