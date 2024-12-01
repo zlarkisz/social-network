@@ -33,9 +33,15 @@ export class PostsService {
     return this.postsRepository.find();
   }
 
-  findPostsByUserId(userId: number): Promise<Post[]> {
-    return this.postsRepository.find({
+  async findPostsByUserId(userId: number): Promise<Post[]> {
+    const posts = await this.postsRepository.find({
       where: { user: { id: userId } },
     });
+
+    if (!posts.length) {
+      throw new NotFoundException(`Posts for user with ID ${userId} not found`);
+    }
+
+    return posts;
   }
 }
