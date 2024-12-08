@@ -1,114 +1,107 @@
-🌐 Social Network API
+# 🌐 Social Network API
 
-📝 Description
-
+## 📝 Description
 The Social Network API is a backend application built with NestJS, designed to support user registration, post creation, and interactions between users. It leverages PostgreSQL for data storage, Redis for caching, and Docker for containerization. Swagger documentation is integrated to ensure easy API exploration.
 
-✨ Features
+---
 
-👥 User Management:
+## ✨ Features
 
-User registration with hashed passwords (bcrypt).
+### 👥 User Management
+- User registration with hashed passwords (bcrypt).
+- Secure JWT-based authentication with token expiration.
 
-Secure JWT-based authentication with token expiration.
+### 📝 Post Management
+- Create posts associated with authorized users.
+- Retrieve posts with caching implemented using Redis.
 
-📝 Post Management:
+### ⚠️ Error Handling
+- Proper error responses for unauthorized access (401) and missing parameters (403).
 
-Create posts associated with authorized users.
+### 📖 Swagger Documentation
+- API endpoints are documented and accessible via Swagger at `/api`.
 
-Retrieve posts with caching implemented using Redis.
+### 🐳 Containerized Deployment
+- Fully containerized application using Docker Compose.
 
-⚠️ Error Handling:
+### 🧪 Testing
+- Unit and integration tests for CRUD operations, authentication, and caching.
 
-Proper error responses for unauthorized access (401) and missing parameters (403).
+---
 
-📖 Swagger Documentation:
+## 🔧 Prerequisites
+- **Node.js**: v16 or higher
+- **pnpm**: v8 or higher
+- **Docker**: Ensure Docker and Docker Compose are installed and running
 
-API endpoints are documented and accessible via Swagger at /api.
+---
 
-🐳 Containerized Deployment:
+## 📦 Installation
 
-Fully containerized application using Docker Compose.
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd social-network
+   ```
 
-🧪 Testing:
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-Unit and integration tests for CRUD operations, authentication, and caching.
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the following content:
+   ```env
+   DB_HOST=db
+   DB_PORT=5432
+   DB_USER=postgres
+   DB_PASSWORD=admin
+   DB_NAME=postgres
+   JWT_SECRET=your_jwt_secret
+   ```
 
-🔧 Prerequisites
+4. Run the application using Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
 
-Node.js: v16 or higher
+---
 
-pnpm: v8 or higher
-
-Docker: Ensure Docker and Docker Compose are installed and running
-
-📦 Installation
-
-Clone the repository:
-
-git clone <repository-url>
-cd social-network
-
-Install dependencies:
-
-pnpm install
-
-Set up environment variables:
-Create a .env file in the root directory with the following content:
-
-DB_HOST=db
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=admin
-DB_NAME=postgres
-JWT_SECRET=your_jwt_secret
-
-Run the application using Docker Compose:
-
-docker-compose up -d
-
-📚 API Documentation
-
+## 📚 API Documentation
 Once the application is running, Swagger documentation is available at:
-
+```
 http://localhost:3000/api
+```
 
-📌 Endpoints
+### 📌 Endpoints
+#### 🔐 Authentication
+- `POST /auth/get-token`: Authenticate a user and retrieve a JWT token.
 
-🔐 Authentication
+#### 👤 Users
+- `POST /users`: Register a new user.
+- `GET /users`: Retrieve a list of all users (protected).
+- `GET /users/:id`: Retrieve details of a specific user (protected).
 
-POST /auth/get-token: Authenticate a user and retrieve a JWT token.
+#### 📝 Posts
+- `POST /posts`: Create a new post (protected).
+- `GET /posts`: Retrieve all posts with caching (protected).
+- `GET /posts/user/:userId`: Retrieve posts by a specific user ID (protected).
 
-👤 Users
+---
 
-POST /users: Register a new user.
-
-GET /users: Retrieve a list of all users (protected).
-
-GET /users/:id: Retrieve details of a specific user (protected).
-
-📝 Posts
-
-POST /posts: Create a new post (protected).
-
-GET /posts: Retrieve all posts with caching (protected).
-
-GET /posts/user/:userId: Retrieve posts by a specific user ID (protected).
-
-🧪 Testing
-
+## 🧪 Testing
 Run the tests to ensure the application is functioning correctly:
-
+```bash
 pnpm test
+```
+### 🧪 Tests include:
+- Unit tests for authentication and CRUD operations.
+- Integration tests for major API flows.
 
-🧪 Tests include:
+---
 
-Unit tests for authentication and CRUD operations.
-
-Integration tests for major API flows.
-
-📁 Project Structure
-
+## 📁 Project Structure
+```
 src/
 ├── modules/
 │   ├── auth/
@@ -119,25 +112,21 @@ src/
 ├── guards/
 ├── interceptors/
 ├── decorators/
+```
 
-🛠️ Key Technologies
+---
 
-NestJS: Backend framework
+## 🛠️ Key Technologies
+- **NestJS**: Backend framework
+- **PostgreSQL**: Database
+- **Redis**: Caching
+- **Docker Compose**: Container orchestration
+- **Swagger**: API documentation
+- **Jest**: Testing framework
 
-PostgreSQL: Database
+---
 
-Redis: Caching
-
-Docker Compose: Container orchestration
-
-Swagger: API documentation
-
-Jest: Testing framework
-
-🚀 Future Improvements
-
-Add more robust role-based access control.
-
-Enhance test coverage with edge cases.
-
-Improve Redis caching strategies for specific user queries.
+## 🚀 Future Improvements
+- Add more robust role-based access control.
+- Enhance test coverage with edge cases.
+- Improve Redis caching strategies for specific user queries.
