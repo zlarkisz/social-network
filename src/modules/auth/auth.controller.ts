@@ -9,10 +9,10 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Post('get-token')
   @ApiOperation({ summary: 'Authenticate a user and return a JWT token' })
   @ApiResponse({ status: 200, description: 'Token successfully generated.' })
   @ApiResponse({ status: 401, description: 'Invalid email or password.' })
-  @Post('get-token')
   getToken(@Body() loginUserDto: LoginUserDto) {
     return this.authService.logIn(loginUserDto);
   }
