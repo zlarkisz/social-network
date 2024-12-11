@@ -30,8 +30,8 @@ The Social Network API is a backend application built with NestJS, designed to s
 ---
 
 ## 🔧 Prerequisites
-- **Node.js**: v16 or higher
-- **pnpm**: v8 or higher
+- **Node.js**: v20.17.0
+- **pnpm**: v9.14.4
 - **Docker**: Ensure Docker and Docker Compose are installed and running
 
 ---
